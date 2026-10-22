@@ -15,8 +15,6 @@
 
 **Create the viral lowercase, blurred, acid-green "brat" album covers in seconds — entirely in your browser.**
 
-[Live Demo](https://YOUR_USERNAME.github.io/open-source-brat-generator/) · [Report Bug](https://github.com/YOUR_USERNAME/open-source-brat-generator/issues) · [Request Feature](https://github.com/YOUR_USERNAME/open-source-brat-generator/issues)
-
 </div>
 
 ---
