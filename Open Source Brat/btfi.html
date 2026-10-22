@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hamza Brat Generates — Free Brat Generator</title>
+<meta name="description" content="Hamza Brat Generates — a free brat generator. Make the viral lowercase, blurred, acid-green album covers in seconds. No signup, no watermark, 100% in your browser.">
+<meta property="og:title" content="Hamza Brat Generates">
+<meta property="og:description" content="Make the viral brat-style covers in seconds. Free, no watermark.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0e08;
+    --panel:#151911;
+    --panel-2:#1c2216;
+    --line:#2a3220;
+    --txt:#e9f2d8;
+    --muted:#8b9a78;
+    --brat:#8ace00;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(138,206,0,.13), transparent 60%),
+      var(--bg);
+    color:var(--txt);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    min-height:100vh;
+    padding:24px 16px 60px;
+  }
+  header{max-width:1080px;margin:0 auto 22px;text-align:center}
+  h1{
+    font-size:clamp(26px,5vw,44px);
+    margin:0 0 6px;letter-spacing:-.03em;line-height:1.05;font-weight:800;
+  }
+  h1 em{font-style:normal;color:var(--brat)}
+  .sub{color:var(--muted);margin:0;font-size:14px;line-height:1.5}
+
+  .app{
+    max-width:1080px;margin:0 auto;
+    display:grid;grid-template-columns:1fr 380px;gap:18px;align-items:start;
+  }
+  @media (max-width:860px){.app{grid-template-columns:1fr}}
+
+  .panel{
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:18px;padding:16px;
+  }
+
+  /* preview */
+  .canvas-wrap{
+    display:flex;align-items:center;justify-content:center;
+    background:repeating-conic-gradient(#141810 0% 25%, #10140d 0% 50%) 50%/24px 24px;
+    border-radius:14px;padding:10px;min-height:260px;
+  }
+  #preview{
+    max-width:100%;max-height:60vh;width:auto;height:auto;
+    display:block;border-radius:8px;
+    box-shadow:0 10px 40px rgba(0,0,0,.55);
+  }
+  .exports{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:14px}
+
+  /* controls */
+  .controls{display:flex;flex-direction:column;gap:16px}
+  .label{display:block;font-size:12px;font-weight:700;letter-spacing:.09em;
+         text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .group{margin:0}
+  textarea,select,input[type=color]{
+    width:100%;background:var(--panel-2);color:var(--txt);
+    border:1px solid var(--line);border-radius:10px;padding:10px 12px;
+    font:inherit;font-size:14px;outline:none;
+  }
+  textarea{resize:vertical;min-height:70px;line-height:1.4}
+  textarea:focus,select:focus{border-color:var(--brat)}
+  input[type=color]{
+    height:40px;padding:4px;cursor:pointer;flex:0 0 60px;width:60px;
+  }
+  .row{display:flex;gap:10px;align-items:center}
+  .row > *{flex:1}
+  .row.tight > *{flex:0 0 auto}
+
+  .swatches{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .swatches button{
+    width:30px;height:30px;border-radius:9px;cursor:pointer;
+    border:2px solid transparent;box-shadow:0 0 0 1px rgba(255,255,255,.12) inset;
+    transition:transform .12s ease, border-color .12s ease;
+  }
+  .swatches button:hover{transform:translateY(-2px)}
+  .swatches button.active{border-color:#fff;transform:translateY(-2px)}
+
+  .segmented{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .segmented button{
+    padding:9px 4px;font-size:12.5px;border-radius:9px;cursor:pointer;
+    background:var(--panel-2);border:1px solid var(--line);color:var(--txt);
+  }
+  .segmented button.active{background:var(--brat);border-color:var(--brat);color:#10160a;font-weight:700}
+
+  button{font:inherit;transition:filter .15s ease, background .15s ease}
+  button:active{filter:brightness(.9)}
+
+  .btn-primary{
+    background:var(--brat);color:#10160a;font-weight:800;border:none;
+    border-radius:10px;padding:11px 12px;cursor:pointer;font-size:13.5px;
+  }
+  .btn-primary:hover{background:#9ae800}
+  .btn-ghost{
+    background:var(--panel-2);color:var(--txt);border:1px solid var(--line);
+    border-radius:10px;padding:11px 12px;cursor:pointer;font-size:13.5px;font-weight:600;
+  }
+  .btn-ghost:hover{border-color:var(--brat);color:var(--brat)}
+
+  .slider-row{display:flex;flex-direction:column;gap:4px;flex:1}
+  .slider-head{display:flex;justify-content:space-between;font-size:12px;
+               color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+  .slider-head b{color:var(--brat);font-variant-numeric:tabular-nums}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;width:100%;height:26px;background:transparent;cursor:pointer;
+  }
+  input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:99px;background:var(--panel-2);border:1px solid var(--line)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+    background:var(--brat);margin-top:-7px;border:2px solid #10160a;box-shadow:0 0 0 1px var(--brat)}
+  input[type=range]::-moz-range-track{height:6px;border-radius:99px;background:var(--panel-2);border:1px solid var(--line)}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--brat);border:2px solid #10160a}
+
+  .switch{display:flex;align-items:center;gap:9px;cursor:pointer;font-size:14px;user-select:none}
+  .switch input{appearance:none;-webkit-appearance:none;width:42px;height:24px;border-radius:99px;
+    background:var(--panel-2);border:1px solid var(--line);position:relative;cursor:pointer;transition:background .15s}
+  .switch input::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;
+    background:var(--muted);transition:transform .15s, background .15s}
+  .switch input:checked{background:rgba(138,206,0,.2);border-color:var(--brat)}
+  .switch input:checked::after{transform:translateX(18px);background:var(--brat)}
+  .toggles{display:flex;gap:18px;flex-wrap:wrap}
+
+  footer{max-width:1080px;margin:34px auto 0;color:var(--muted);font-size:12.5px;line-height:1.7;text-align:center}
+  footer a{color:var(--brat);text-decoration:none}
+
+  #toast{
+    position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);
+    background:var(--brat);color:#10160a;font-weight:800;font-size:13.5px;
+    padding:10px 18px;border-radius:99px;opacity:0;pointer-events:none;
+    transition:opacity .2s, transform .2s;z-index:99;
+    max-width:calc(100vw - 32px);text-align:center;
+  }
+  #toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Hamza <em>Brat</em> Generates</h1>
+  <p class="sub">The free brat generator — lowercase text, blurry edges, acid green. No signup, no watermark, nothing leaves your browser.</p>
+</header>
+
+<main class="app">
+  <!-- ================= PREVIEW ================= -->
+  <section class="panel">
+    <div class="canvas-wrap">
+      <canvas id="preview" width="1080" height="1080"></canvas>
+    </div>
+
+    <div class="exports">
+      <button class="btn-primary" data-export="png">Download PNG</button>
+      <button class="btn-ghost" id="copyBtn">Copy image</button>
+    </div>
+  </section>
+
+  <!-- ================= CONTROLS ================= -->
+  <section class="panel controls">
+
+    <div class="group">
+      <label class="label" for="text">Your text</label>
+      <textarea id="text" rows="3" spellcheck="false"
+        placeholder="type anything…&#10;line breaks are kept"></textarea>
+    </div>
+
+    <div class="group">
+      <span class="label">Background colour</span>
+      <div class="swatches" id="bgSwatches"></div>
+      <div class="row tight">
+        <input type="color" id="bg" value="#8ace00" aria-label="Background colour">
+        <button class="btn-ghost" id="randomBtn">🎲 Randomize</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <span class="label">Text colour</span>
+      <div class="swatches" id="fgSwatches"></div>
+      <input type="color" id="fg" value="#000000" aria-label="Text colour">
+    </div>
+
+    <div class="row">
+      <div class="slider-row">
+        <div class="slider-head"><span>Blur</span><b id="blurVal">7</b></div>
+        <input type="range" id="blur" min="1" max="10" step="1" value="7">
+      </div>
+      <div class="slider-row">
+        <div class="slider-head"><span>Text size</span><b id="fontVal">12</b></div>
+        <input type="range" id="font" min="3" max="30" step="1" value="12">
+      </div>
+    </div>
+
+    <div class="group">
+      <span class="label">Alignment</span>
+      <div class="segmented" id="align">
+        <button data-align="left">Left</button>
+        <button data-align="center" class="active">Center</button>
+        <button data-align="right">Right</button>
+        <button data-align="justify">Justify</button>
+      </div>
+    </div>
+
+    <div class="group toggles">
+      <label class="switch"><input type="checkbox" id="lower" checked><span>lowercase</span></label>
+      <label class="switch"><input type="checkbox" id="strike"><span>strike-through</span></label>
+    </div>
+
+    <div class="group">
+      <label class="label" for="size">Canvas size</label>
+      <select id="size"></select>
+    </div>
+
+    <button class="btn-ghost" id="resetBtn">Reset to defaults</button>
+  </section>
+</main>
+
+<footer>
+  Hamza Brat Generates is an independent fan-made tool inspired by the “brat” aesthetic.
+  Images are generated entirely in your browser — your text is never uploaded.
+  Your text always auto-fits inside the frame.
+</footer>
+
+<div id="toast"></div>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ============================================================
+     CONFIG
+  ============================================================ */
+  const FONT_STACK = '"Arimo", Arial, "Helvetica Neue", Helvetica, sans-serif';
+  const COMPRESS   = 0.82;   // horizontal squeeze → the "narrow" brat look
+
+  const BLUR_MIN = 1;
+  const BLUR_MAX = 10;
+
+  const SIZES = {
+    square:   { w: 1080, h: 1080, label: 'Square · 1:1 · 1080×1080' },
+    portrait: { w: 1080, h: 1350, label: 'Portrait · 4:5 · 1080×1350' },
+    story:    { w: 1080, h: 1920, label: 'Story · 9:16 · 1080×1920' },
+    header:   { w: 1080, h: 360,  label: 'Header · 3:1 · 1080×360'  },
+    sticker:  { w: 512,  h: 512,  label: 'Sticker · 512×512'        },
+  };
+
+  /* ---- bigger, more aesthetic colour palettes ---- */
+  const BG_PRESETS = [
+    '#8ace00', // classic brat
+    '#d4ff00', // acid lime
+    '#b8ff8a', // soft mint-lime
+    '#a0e7e5', // pale aqua
+    '#b4f8c8', // pastel green
+    '#c9b6ff', // lavender
+    '#ffd6e0', // blush pink
+    '#ffb3c6', // rose
+    '#ff69b4', // hot pink
+    '#ffffff', // white
+    '#f5f0e1', // cream
+    '#c0c0c0', // silver
+    '#2b2b2b', // charcoal
+    '#000000', // black
+    '#ffd400', // sunshine yellow
+    '#ff4d00', // vivid orange
+    '#00b3ff', // sky blue
+    '#7a5cff'  // electric violet
+  ];
+
+  const FG_PRESETS = [
+    '#000000', // black
+    '#1a1a1a', // near-black
+    '#4a4a4a', // graphite
+    '#ffffff', // white
+    '#8ace00', // brat green
+    '#2e7d32', // forest
+    '#008080', // teal
+    '#0055ff', // cobalt
+    '#6a00ff', // violet
+    '#ff2d55', // raspberry
+    '#b30000'  // deep red
+  ];
+
+  const DEFAULTS = {
+    text: 'hamza brat generates',
+    bg: '#8ace00',
+    fg: '#000000',
+    blur: 7,          // 1–10 @ 1080px reference
+    fontScale: 0.12,  // fraction of the shorter side
+    align: 'center',
+    lower: true,
+    strike: false,
+    sizeKey: 'square',
+  };
+
+  const STORE_KEY = 'hamza-brat-generates-v1';
+
+  /* ============================================================
+     STATE
+  ============================================================ */
+  let state = { ...DEFAULTS };
+
+  const $ = (sel) => document.querySelector(sel);
+  const preview = $('#preview');
+
+  const clampBlur = (v) => {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return DEFAULTS.blur;
+    return Math.min(BLUR_MAX, Math.max(BLUR_MIN, Math.round(n)));
+  };
+
+  /* ============================================================
+     TEXT LAYOUT
+  ============================================================ */
+  function wrapText(g, text, maxWidth) {
+    const out = [];
+    const paragraphs = text.split('\n');
+
+    for (const para of paragraphs) {
+      const words = para.split(/\s+/).filter(w => w.length);
+      if (!words.length) { out.push(''); continue; }
+
+      let cur = '';
+      for (const word of words) {
+        const candidate = cur ? cur + ' ' + word : word;
+        if (g.measureText(candidate).width <= maxWidth) { cur = candidate; continue; }
+
+        if (cur) { out.push(cur); cur = ''; }
+
+        // a single word wider than the line → hard character break
+        if (g.measureText(word).width > maxWidth) {
+          let chunk = '';
+          for (const ch of word) {
+            if (chunk && g.measureText(chunk + ch).width > maxWidth) {
+              out.push(chunk); chunk = ch;
+            } else chunk += ch;
+          }
+          cur = chunk;
+        } else {
+          cur = word;
+        }
+      }
+      if (cur) out.push(cur);
+    }
+    return out;
+  }
+
+  function strikeLine(g, x, y, width, fontSize, color) {
+    g.fillStyle = color;
+    g.fillRect(x, y - fontSize * 0.06, width, Math.max(2, fontSize * 0.07));
+  }
+
+  /* ============================================================
+     CORE RENDER — draws into any canvas
+     Text is ALWAYS auto-fitted inside the frame (never clipped).
+  ============================================================ */
+  function drawTo(target, o, transparent = false) {
+    const { W, H } = o;
+    target.width  = W;
+    target.height = H;
+
+    const g = target.getContext('2d');
+    g.setTransform(1, 0, 0, 1, 0, 0);
+    g.clearRect(0, 0, W, H);
+
+    /* ---------- 1. text layer (transparent) ---------- */
+    const layer = document.createElement('canvas');
+    layer.width = W; layer.height = H;
+    const t = layer.getContext('2d');
+
+    const pad = Math.min(W, H) * 0.09;
+    const maxTextWidth  = W - pad * 2;              // final on-canvas width
+    const availNatural  = maxTextWidth / COMPRESS;  // width before squeezing
+    const maxTextHeight = H - pad * 2;
+
+    t.textAlign = 'left';
+    t.textBaseline = 'middle';
+    t.fillStyle = o.fg;
+
+    let text = String(o.text ?? '').replace(/\r/g, '');
+    if (o.lower) text = text.toLowerCase();
+    if (!text.trim()) text = ' ';
+
+    /* ---------- AUTO-FIT: shrink font until the whole block fits ---------- */
+    let fontSize = Math.max(3, o.fontSize);
+    let lines = [], lineHeight = 0, blockHeight = 0;
+
+    for (let iter = 0; iter < 14; iter++) {
+      t.font = `400 ${fontSize}px ${FONT_STACK}`;
+      lines       = wrapText(t, text, availNatural);
+      lineHeight  = fontSize * 1.04;
+      blockHeight = lines.length * lineHeight;
+
+      if (blockHeight <= maxTextHeight) break;
+
+      // proportional shrink, re-measure (wrapping may change line count)
+      const scale = Math.max(0.5, (maxTextHeight / blockHeight) * 0.98);
+      const next  = Math.max(3, fontSize * scale);
+      if (next === fontSize) break;   // cannot shrink further
+      fontSize = next;
+    }
+
+    /* guarantee it fits even in pathological cases */
+    if (blockHeight > maxTextHeight && lines.length) {
+      lineHeight  = maxTextHeight / lines.length;
+      fontSize    = Math.max(3, lineHeight / 1.04);
+      blockHeight = lines.length * lineHeight;
+    }
+
+    const startY = (H - blockHeight) / 2 + lineHeight / 2;
+
+    t.save();
+    t.scale(COMPRESS, 1);
+
+    lines.forEach((line, i) => {
+      if (!line) return;
+      const y  = startY + i * lineHeight;
+      const nw = t.measureText(line).width;
+
+      let x0;
+      if (o.align === 'left')         x0 = pad / COMPRESS;
+      else if (o.align === 'right')   x0 = (W - pad) / COMPRESS - nw;
+      else if (o.align === 'justify') x0 = pad / COMPRESS;
+      else                            x0 = W / (2 * COMPRESS) - nw / 2;
+
+      /* justified: stretch word gaps, skip the last line */
+      if (o.align === 'justify' && i < lines.length - 1) {
+        const words = line.split(' ');
+        if (words.length > 1) {
+          const widths = words.map(w => t.measureText(w).width);
+          const wordsW = widths.reduce((a, b) => a + b, 0);
+          const gap    = (availNatural - wordsW) / (words.length - 1);
+          let x = pad / COMPRESS;
+          words.forEach((w, k) => {
+            t.fillText(w, x, y);
+            if (o.strike) strikeLine(t, x, y, widths[k], fontSize, o.fg);
+            x += widths[k] + gap;
+          });
+          return;
+        }
+      }
+
+      t.fillText(line, x0, y);
+      if (o.strike) strikeLine(t, x0, y, nw, fontSize, o.fg);
+    });
+
+    t.restore();
+
+    /* ---------- 2. composite ---------- */
+    if (!transparent) {
+      g.fillStyle = o.bg;
+      g.fillRect(0, 0, W, H);
+    }
+    if (o.blur > 0.05) g.filter = `blur(${o.blur.toFixed(2)}px)`;
+    g.drawImage(layer, 0, 0);
+    g.filter = 'none';
+  }
+
+  /* ============================================================
+     OPTIONS BUILDER
+  ============================================================ */
+  function getOpts(sizeKey = state.sizeKey) {
+    const s = SIZES[sizeKey] || SIZES.square;
+    const m = Math.min(s.w, s.h);
+    return {
+      W: s.w,
+      H: s.h,
+      text: state.text,
+      bg: state.bg,
+      fg: state.fg,
+      blur: clampBlur(state.blur) * (m / 1080),
+      fontSize: Math.max(3, state.fontScale * m),
+      align: state.align,
+      lower: state.lower,
+      strike: state.strike,
+    };
+  }
+
+  /* ============================================================
+     PREVIEW (rAF-throttled)
+  ============================================================ */
+  let rafId = null;
+  function scheduleRender() {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      rafId = null;
+      drawTo(preview, getOpts(), false);
+      persist();
+    });
+  }
+
+  /* ============================================================
+     SHARED EXPORT HELPERS
+  ============================================================ */
+  function canvasToBlob(canvas) {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(
+        b => (b ? resolve(b) : reject(new Error('Could not create image'))),
+        'image/png'
+      );
+    });
+  }
+
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  }
+
+  /* ============================================================
+     EXPORT — PNG
+  ============================================================ */
+  function exportPng() {
+    const o = getOpts();
+    const c = document.createElement('canvas');
+    drawTo(c, o, false);
+
+    canvasToBlob(c).then(blob => {
+      downloadBlob(blob, `hamza-brat-${o.W}x${o.H}.png`);
+      toast('Downloaded ✓');
+    }).catch(() => toast('Export failed'));
+  }
+
+  /* ============================================================
+     COPY IMAGE
+     The ClipboardItem is built SYNCHRONOUSLY inside the click
+     gesture (with a promise for the blob) — that's what makes
+     image copying reliable. If the browser blocks it (file://,
+     no permission, unsupported), we download the PNG instead so
+     the button always does something useful.
+  ============================================================ */
+  function copyImage() {
+    const o = getOpts();
+    const c = document.createElement('canvas');
+    drawTo(c, o, false);
+
+    const blobPromise = canvasToBlob(c);
+    blobPromise.catch(() => {});   // avoid unhandled-rejection noise
+
+    const downloadInstead = (why) => {
+      blobPromise.then(blob => {
+        downloadBlob(blob, `hamza-brat-${o.W}x${o.H}.png`);
+        toast(`${why} — downloaded instead ✓`);
+      }).catch(() => toast('Copy failed — use Download'));
+    };
+
+    if (!navigator.clipboard || typeof window.ClipboardItem === 'undefined') {
+      return downloadInstead('Clipboard not supported');
+    }
+
+    try {
+      const item = new ClipboardItem({ 'image/png': blobPromise });
+      navigator.clipboard.write([item]).then(
+        () => toast('Copied to clipboard ✓'),
+        () => downloadInstead('Clipboard blocked')
+      );
+    } catch (err) {
+      downloadInstead('Clipboard blocked');
+    }
+  }
+
+  /* ============================================================
+     TOAST
+  ============================================================ */
+  let toastTimer = null;
+  function toast(msg) {
+    const el = $('#toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+  }
+
+  /* ============================================================
+     PERSISTENCE
+  ============================================================ */
+  function persist() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch {}
+  }
+  function restore() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return;
+      const saved = JSON.parse(raw);
+      state = { ...DEFAULTS, ...saved };
+      if (!SIZES[state.sizeKey]) state.sizeKey = 'square';
+      state.blur = clampBlur(state.blur);   // old saves may be out of range
+    } catch {}
+  }
+
+  /* ============================================================
+     UI BUILD + BINDING
+  ============================================================ */
+  function buildSwatches(container, colors, onPick) {
+    container.innerHTML = '';
+    colors.forEach(color => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.style.background = color;
+      b.dataset.color = color.toLowerCase();
+      b.title = color;
+      b.setAttribute('aria-label', color);
+      b.addEventListener('click', () => onPick(color));
+      container.appendChild(b);
+    });
+  }
+
+  function syncUI() {
+    $('#text').value  = state.text;
+    $('#bg').value    = state.bg;
+    $('#fg').value    = state.fg;
+
+    $('#blur').value  = state.blur;
+    $('#blurVal').textContent = state.blur;
+
+    const pct = Math.round(state.fontScale * 100);
+    $('#font').value  = pct;
+    $('#fontVal').textContent = pct;
+
+    $('#lower').checked  = state.lower;
+    $('#strike').checked = state.strike;
+    $('#size').value     = state.sizeKey;
+
+    document.querySelectorAll('#align button').forEach(b =>
+      b.classList.toggle('active', b.dataset.align === state.align));
+
+    document.querySelectorAll('#bgSwatches button').forEach(b =>
+      b.classList.toggle('active', b.dataset.color === state.bg.toLowerCase()));
+
+    document.querySelectorAll('#fgSwatches button').forEach(b =>
+      b.classList.toggle('active', b.dataset.color === state.fg.toLowerCase()));
+  }
+
+  function buildSizeSelect() {
+    const sel = $('#size');
+    sel.innerHTML = '';
+    Object.entries(SIZES).forEach(([key, s]) => {
+      const opt = document.createElement('option');
+      opt.value = key;
+      opt.textContent = s.label;
+      sel.appendChild(opt);
+    });
+  }
+
+  function bind() {
+    $('#text').addEventListener('input', e => {
+      state.text = e.target.value; scheduleRender();
+    });
+
+    $('#bg').addEventListener('input', e => {
+      state.bg = e.target.value; syncUI(); scheduleRender();
+    });
+    $('#fg').addEventListener('input', e => {
+      state.fg = e.target.value; syncUI(); scheduleRender();
+    });
+
+    buildSwatches($('#bgSwatches'), BG_PRESETS, (c) => {
+      state.bg = c; syncUI(); scheduleRender();
+    });
+    buildSwatches($('#fgSwatches'), FG_PRESETS, (c) => {
+      state.fg = c; syncUI(); scheduleRender();
+    });
+
+    $('#blur').addEventListener('input', e => {
+      state.blur = clampBlur(e.target.value);
+      $('#blurVal').textContent = state.blur;
+      scheduleRender();
+    });
+
+    $('#font').addEventListener('input', e => {
+      state.fontScale = Number(e.target.value) / 100;
+      $('#fontVal').textContent = e.target.value;
+      scheduleRender();
+    });
+
+    document.querySelectorAll('#align button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.align = btn.dataset.align;
+        syncUI(); scheduleRender();
+      });
+    });
+
+    $('#lower').addEventListener('change', e => {
+      state.lower = e.target.checked; scheduleRender();
+    });
+    $('#strike').addEventListener('change', e => {
+      state.strike = e.target.checked; scheduleRender();
+    });
+
+    $('#size').addEventListener('change', e => {
+      state.sizeKey = e.target.value; scheduleRender();
+    });
+
+    $('#randomBtn').addEventListener('click', () => {
+      const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+      state.bg     = pick(BG_PRESETS);
+      state.fg     = pick(FG_PRESETS);
+      state.blur   = BLUR_MIN + Math.floor(Math.random() * (BLUR_MAX - BLUR_MIN + 1));
+      state.align  = pick(['left', 'center', 'right', 'justify']);
+      state.strike = Math.random() < 0.2;
+      syncUI(); scheduleRender();
+    });
+
+    $('#resetBtn').addEventListener('click', () => {
+      state = { ...DEFAULTS };
+      syncUI(); scheduleRender();
+      toast('Reset ✓');
+    });
+
+    document.querySelectorAll('[data-export]').forEach(btn => {
+      btn.addEventListener('click', () => exportPng());
+    });
+
+    $('#copyBtn').addEventListener('click', copyImage);
+  }
+
+  /* ============================================================
+     INIT
+  ============================================================ */
+  function init() {
+    restore();
+    buildSizeSelect();
+    bind();
+    syncUI();
+    drawTo(preview, getOpts(), false);
+
+    // re-render once the web font is ready so measurements are correct
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => scheduleRender());
+    }
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
