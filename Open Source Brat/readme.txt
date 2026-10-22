@@ -1,1 +1,1 @@
-downlaod the hbg.html file and run the website locally on you device.
+downlaod the hbg.html file and run the website locally on your device.
