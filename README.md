@@ -18,6 +18,12 @@
 </div>
 
 ---
+<div align="center">
+Made with 💚 by Hamza Nisar
+
+⭐ If this project helped you, consider starring the repo — it means a lot!
+
+</div> 
 
 ## ✨ Features
 
@@ -33,3 +39,4 @@
 | 🔒 | **100 % client-side** — no server, no uploads, no tracking, no watermark. Your text never leaves your browser. |
 | 📱 | **Responsive** — works beautifully on desktop, tablet, and mobile. |
 | 🧩 | **Zero dependencies** — a single `index.html` with no build step, no npm, no framework.
+---
