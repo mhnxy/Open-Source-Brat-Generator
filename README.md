@@ -21,23 +21,6 @@
 
 ---
 
-## 📖 Table of Contents
-
-- [✨ Features](#-features)
-- [🖼️ Screenshots](#️-screenshots)
-- [🚀 Quick Start](#-quick-start)
-- [🛠️ Tech Stack](#️-tech-stack)
-- [📁 Project Structure](#-project-structure)
-- [🎨 Customization](#-customization)
-- [🔒 Privacy](#-privacy)
-- [🧭 Roadmap](#-roadmap)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
-- [🙏 Acknowledgements](#-acknowledgements)
-- [⚠️ Disclaimer](#️-disclaimer)
-
----
-
 ## ✨ Features
 
 | | Feature |
